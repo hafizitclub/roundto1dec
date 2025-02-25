@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rounding Off Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .game-container {
+            border: 2px dotted #333;
+            display: inline-block;
+            padding: 20px;
+            box-shadow: 0px 0px 20px rgba(255, 255, 0, 0.8);
+            background-color: #fff8dc;
+        }
+        input {
+            margin-top: 10px;
+            padding: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rounding Off Game</h1>
+    <div class="game-container">
+        <p>Round this number to 1 decimal place:</p>
+        <h2 id="number"></h2>
+        <input type="text" id="answer" placeholder="Your answer" autofocus>
+        <button onclick="checkAnswer()">Submit</button>
+        <p id="feedback"></p>
+        <p>Score: <span id="score">0</span></p>
+    </div>
+
+    <script>
+        let score = 0;
+        let currentNumber;
+
+        function generateNumber() {
+            currentNumber = (Math.random() * 100).toFixed(2);
+            document.getElementById("number").textContent = currentNumber;
+            document.getElementById("answer").value = "";
+            document.getElementById("feedback").textContent = "";
+        }
+
+        function checkAnswer() {
+            let userAnswer = parseFloat(document.getElementById("answer").value);
+            let correctAnswer = parseFloat(currentNumber).toFixed(1);
+
+            if (userAnswer == correctAnswer) {
+                document.getElementById("feedback").textContent = "Correct!";
+                score++;
+            } else {
+                document.getElementById("feedback").textContent = "Wrong! The correct answer is " + correctAnswer;
+                score = Math.max(0, score - 1);
+            }
+            document.getElementById("score").textContent = score;
+            setTimeout(generateNumber, 1500);
+        }
+
+        document.getElementById("answer").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkAnswer();
+            }
+        });
+
+        generateNumber();
+    </script>
+</body>
+</html>
